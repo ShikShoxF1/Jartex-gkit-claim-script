@@ -50,7 +50,9 @@ function loginWithAccount(account) {
         if (msg.length === 0) return;
         bot.chat(msg);
     });
-    //REPLACE YourIGN with your username 
+
+
+         //replace YourIGN with your IGN
     bot.on('chat', (username, message) => {
         if (username === 'YourIGN' && message.startsWith('.gkit')) {
             const args = message.split(' ');
@@ -80,15 +82,15 @@ function loginWithAccount(account) {
     async function MidwayFunc(isSotw, bot) {
         if (isSotw) {
             bot.chat("isSotw=true")
-            delay(500);
+            await new Promise(resolve => setTimeout(resolve, 500))
             bot.chat("/clear")
-            delay(500);
+            await new Promise(resolve => setTimeout(resolve, 500))
             bot.chat("/clear confirm")
-            delay(500);
+            await new Promise(resolve => setTimeout(resolve, 500))
             bot.chat("Inventory Cleaned");
-            delay(500);
+            await new Promise(resolve => setTimeout(resolve, 500))
             bot.chat("Claiming...");
-            delay(500);
+            await new Promise(resolve => setTimeout(resolve, 500))
             claimGKit(bot);
         } else {
             bot.chat("Claiming...");
@@ -98,7 +100,7 @@ function loginWithAccount(account) {
 
     async function claimGKit(bot) {
         bot.chat("/gkit");
-        delay(1000);
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
         if (bot.currentWindow == null) {
             console.log("[claimGKit] Error: No window is currently open.");
@@ -114,13 +116,13 @@ function loginWithAccount(account) {
         }
 
         if (validSlots.length === 0) {
-            bot.chat("Everything is on cooldown.");
+            bot.chat("Everything's on cooldown.");
             return;
         }
 
         for (const slot of validSlots) {
             bot.clickWindow(slot, 0.5, 0.5);
-            delay(1000);
+            await new Promise(resolve => setTimeout(resolve, 1000));
             await GiftSystem(bot);
         }
     }
@@ -132,48 +134,43 @@ function loginWithAccount(account) {
     function isEnchanted(item) {
         return item.enchants && item.enchants.length > 0;
     }
-    //REPLACE YourIGN with your username
+
     async function GiftSystem(bot) {
-        delay(1000);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+       //replace YourIGN with your IGN or the gift receiver IGN
         bot.chat("/gift YourIGN");
-        delay(1000);
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
         if (bot.currentWindow == null) {
             bot.chat("Gift deposit window didnt pop up");
             return;
         } else {
-            delay(1000);
+            await new Promise(resolve => setTimeout(resolve, 1000));
             for (let i = 54; i <= 62; i++) {
                 bot.clickWindow(i, 0.5, 0.5);
-                delay(200);
+                await new Promise(resolve => setTimeout(resolve, 200));
             }
 
-            delay(1000);
+            await new Promise(resolve => setTimeout(resolve, 1000));
             bot.closeWindow(bot.currentWindow.id);
-            delay(1000);
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
             if (bot.currentWindow == null) {
                 bot.chat("Gift confirmation window didnt pop up");
                 return;
             } else {
-                delay(1000);
+                await new Promise(resolve => setTimeout(resolve, 1000));
                 bot.clickWindow(11, 0.5, 0.5);
-                delay(1000);
+                await new Promise(resolve => setTimeout(resolve, 1000));
             }
         }
     }
 }
-
-function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
-}
-
 accounts.reduce((promise, account) => {
     return promise.then(() => {
         return new Promise(resolve => {
             loginWithAccount(account);
-            setTimeout(resolve, 2000);
+            setTimeout(resolve, 2500);
         });
     });
 }, Promise.resolve());
-
