@@ -1,0 +1,9 @@
+{
+  parserOptions: {
+    ecmaVersion: 2017, // or a higher version if needed
+  },
+
+    "env": {
+        "es6": true
+    }
+}

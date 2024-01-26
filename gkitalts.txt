@@ -1,0 +1,2 @@
+name1:InGamePass1
+name2:InGamePass2
